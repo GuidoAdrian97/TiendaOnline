@@ -49770,6 +49770,85 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/js/apicategoria.js":
+/*!**************************************!*\
+  !*** ./resources/js/apicategoria.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var apicategoria = new Vue({
+  el: '#apicategoria',
+  data: {
+    nombre: '',
+    slug: '',
+    div_mensajeSlug: 'Slug Existe',
+    div_class_slug: 'badge badge-success',
+    div_aparecer: false,
+    des_buton: 1
+  },
+  computed: {
+    generarSlug: function generarSlug() {
+      var _char = {
+        "á": "a",
+        "é": "e",
+        "í": "i",
+        "ó": "o",
+        "ú": "u",
+        "Á": "A",
+        "É": "E",
+        "Í": "I",
+        "Ó": "O",
+        "Ú": "U",
+        "Ñ": "N",
+        "ñ": "n",
+        " ": "-",
+        "_": "-"
+      };
+      var expr = /[áéíóúÁÉÍÓÚÑñ _]/g;
+      this.slug = this.nombre.trim().replace(expr, function (e) {
+        return _char[e];
+      }).toLowerCase();
+      return this.slug;
+    }
+  },
+  methods: {
+    getCategoria: function getCategoria() {
+      var _this = this;
+
+      if (this.slug) {
+        var url = '/api/categoria/' + this.slug;
+        axios.get(url).then(function (response) {
+          _this.div_mensajeSlug = response.data;
+
+          if (_this.div_mensajeSlug === "Slug Disponible") {
+            _this.div_class_slug = "badge badge-success";
+            _this.des_buton = 0;
+          } else {
+            _this.div_class_slug = "badge badge-danger";
+            _this.des_buton = 1;
+          }
+
+          _this.div_aparecer = true;
+        });
+      } else {
+        this.div_class_slug = "badge badge-danger";
+        this.div_mensajeSlug = "Debes scribir categoria";
+        this.des_buton = 1;
+        this.div_aparecer = true;
+      }
+    }
+  },
+  mounted: function mounted() {
+    if (document.getElementById('editar').innerHTML) {
+      this.nombre = document.getElementById('nombretemp').innerHTML;
+      this.des_buton = 0;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -49805,6 +49884,8 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 var app = new Vue({
   el: '#app'
 });
+
+__webpack_require__(/*! ./apicategoria */ "./resources/js/apicategoria.js");
 
 /***/ }),
 
