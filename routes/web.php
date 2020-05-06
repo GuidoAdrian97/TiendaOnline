@@ -26,10 +26,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/admin', function () {
 	return view('plantilla.admin');
-});
+})->name('admin');
 
 Route::resource('/admin/categoria','Admin\AdminCategoriaController')->names('Admin.Categoria');
 
 Route::get('cancelar/{ruta}',function($ruta){
-return redirect()->route('Admin.Categoria.index')->with('datos','Cancelado Correctamente');
+return redirect()->route('Admin.Categoria.index')->with('cancelar','Cancelado Correctamente');
 })->name('cancelar');

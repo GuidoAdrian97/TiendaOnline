@@ -49840,9 +49840,31 @@ var apicategoria = new Vue({
     }
   },
   mounted: function mounted() {
-    if (document.getElementById('editar').innerHTML) {
+    if (document.getElementById('editar')) {
       this.nombre = document.getElementById('nombretemp').innerHTML;
       this.des_buton = 0;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/apiconfirmareliminar.js":
+/*!**********************************************!*\
+  !*** ./resources/js/apiconfirmareliminar.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var apiconfirmareliminar = new Vue({
+  el: '#apiconfirmareliminar',
+  data: {
+    urlaeliminar: ''
+  },
+  methods: {
+    deseas_eliminar: function deseas_eliminar(id) {
+      this.urlaeliminar = document.getElementById('urlbase').innerHTML + '/' + id;
+      $('#modal-eliminar').modal('show');
     }
   }
 });
@@ -49881,11 +49903,19 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var app = new Vue({
-  el: '#app'
-});
+if (document.getElementById('app')) {
+  var app = new Vue({
+    el: '#app'
+  });
+}
 
-__webpack_require__(/*! ./apicategoria */ "./resources/js/apicategoria.js");
+if (document.getElementById('apicategoria')) {
+  __webpack_require__(/*! ./apicategoria */ "./resources/js/apicategoria.js");
+}
+
+if (document.getElementById('apiconfirmareliminar')) {
+  __webpack_require__(/*! ./apiconfirmareliminar */ "./resources/js/apiconfirmareliminar.js");
+}
 
 /***/ }),
 

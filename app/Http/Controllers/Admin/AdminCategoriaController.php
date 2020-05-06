@@ -12,9 +12,11 @@ class AdminCategoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categorias=Categoria::orderBy('nombre')->paginate(2);
+        $nombre= $request->get('nombre');
+        $categorias=Categoria::where('nombre','like',"%$nombre%")->orderBy('nombre')->paginate(2);
+
         return view('plantillaAdmin.Categoria.index',compact('categorias'));
     }
 
@@ -49,9 +51,11 @@ class AdminCategoriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $cat= Categoria::where('slug',$slug)->firstOrFail();
+        $editar='Si';
+        return view('plantillaAdmin.categoria.show',compact('cat','editar'));
     }
 
     /**
@@ -93,6 +97,8 @@ class AdminCategoriaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cat= Categoria::findOrFail($id);
+        $cat->delete();
+        return redirect()->route('Admin.Categoria.index')->with('datos','Registro Eliminado Correctamente');
     }
 }

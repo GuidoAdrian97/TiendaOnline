@@ -1,22 +1,42 @@
 @extends('plantilla.admin')
 @section('titulo','Pincipal Categoria') 
 
+
+
+
+@section('breadcrumb')
+
+ <li class="breadcrumb-item active">@yield('titulo')</li>
+@endsection
+
+
+
 @section('contenido')
 
-      <div class="row">
+
+
+      <div id="apiconfirmareliminar" class="row">
+       <span style="display: none" id="urlbase">{{route('Admin.Categoria.index')}}</span> 
+       @include('custom.modal_eliminar')
           <div class="col-12">
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Seccion de Categorias</h3>
 
                 <div class="card-tools">
+
+                  <form>
+
                   <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                    <input type="text" name="nombre" class="form-control float-right" placeholder="Buscar" value="{{request()->get('nombre')}}">
 
                     <div class="input-group-append">
                       <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
                     </div>
                   </div>
+
+                  </form>
+
                 </div>
               </div>
               
@@ -48,7 +68,7 @@
                       <td>{{$categoria->created_at}}</td>
                       <td ><a class="btn btn-default" href="{{ route('Admin.Categoria.show',$categoria->slug) }}" > <i class="far fa-eye"></i></a></td>
                       <td ><a class="btn btn-info" href="{{ route('Admin.Categoria.edit',$categoria->slug) }}" > <i class="far fa-edit"></i></a></td>
-                      <td ><a class="btn btn-danger" href="{{ route('Admin.Categoria.index') }}" > <i class="far fa-trash-alt"></i></a></td>
+                      <td ><a v-on:click.prevent="deseas_eliminar({{$categoria->id}})" class="btn btn-danger" href="{{ route('Admin.Categoria.index') }}" > <i class="far fa-trash-alt"></i></a></td>
                       
                     </tr>
                     @endforeach 
@@ -56,7 +76,7 @@
                   </tbody>
                 </table>
 
-                {{$categorias->links()}}
+                {{$categorias->appends($_GET)->links()}}
               </div>
               
             </div>
