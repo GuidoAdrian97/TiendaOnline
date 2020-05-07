@@ -42,7 +42,7 @@ class categoriaController extends Controller
      */
     public function show($slug)
     {
-        if(Categoria::where('slug',$slug)->first()){
+        if(Categoria::where('slug_Cat',$slug)->first()){
             return 'Slug Existe';
         }else{
             return 'Slug Disponible';

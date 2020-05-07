@@ -15,22 +15,22 @@ class CreatePorductosTable extends Migration
     {
         Schema::create('porductos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nombre',50)->unique();
-            $table->string('slug',50)->unique();
+            $table->string('nombre_Pro',50)->unique();
+            $table->string('slug_Pro',50)->unique();
             $table->unsignedbigInteger('categoria_id');
-            $table->bigInteger('cantidad')->unsigned()->default(0);
-            $table->decimal('precio_actual',12,2)->default(0);
-            $table->decimal('precio_anterior',12,2)->default(0);
-            $table->Integer('porcentaje_descuento')->unsigned()->default(0);
-            $table->string('descripcion_corta')->nullable();
-            $table->string('descripcion_larga')->nullable();
-            $table->string('especificacion')->nullable();
-            $table->string('datoInteres')->nullable();
-            $table->unsignedbigInteger('visitas')->unsigned()->default(0);
-            $table->unsignedbigInteger('ventas')->unsigned()->default(0);
-            $table->string('estado');
-            $table->char('activo',2);
-            $table->char('slinderprincipal',2);
+            $table->bigInteger('cantidad_Pro')->unsigned()->default(0);
+            $table->decimal('precio_actual_Pro',12,2)->default(0);
+            $table->decimal('precio_anterior_Pro',12,2)->default(0);
+            $table->Integer('porcentaje_descuento_Pro')->default(0);
+            $table->string('descripcion_corta_Pro')->nullable();
+            $table->string('descripcion_larga_Pro')->nullable();
+            $table->string('especificacion_Pro')->nullable();
+            $table->string('datoInteres_Pro')->nullable();
+            $table->unsignedbigInteger('visitas_Pro')->unsigned()->default(0);
+            $table->unsignedbigInteger('ventas_Pro')->unsigned()->default(0);
+            $table->string('estado_Pro');
+            $table->char('activo_Pro',2);
+            $table->char('slinderprincipal_Pro',2);
             $table->timestamps();
             $table->foreign('categoria_id')->references('id')->on('categorias');
         });

@@ -14,7 +14,20 @@ use App\Categoria;
 
 Route::get('/', function () {
 
-	
+// $prod = new Porducto();
+// $prod->nombre_Pro = 'Producto 3';
+// $prod->slug_Pro = 'Producto 3';
+// $prod->categoria_id = 1;
+// $prod->descripcion_corta_Pro = 'Producto ';
+// $prod->descripcion_larga_Pro = 'Producto ';
+// $prod->especificacion_Pro = 'Producto ';
+// $prod->datoInteres_Pro = 'Producto ';
+// $prod->estado_Pro = 'Nuevo';
+// $prod->activo_Pro = 'Si';
+// $prod->slinderprincipal_Pro = 'No'; 
+// $prod->save();
+// return $prod;
+
     return view('tienda.index');
 });
 
@@ -29,7 +42,8 @@ Route::get('/admin', function () {
 })->name('admin');
 
 Route::resource('/admin/categoria','Admin\AdminCategoriaController')->names('Admin.Categoria');
+Route::resource('/admin/producto','Admin\AdminProductoController')->names('Admin.Producto');
 
 Route::get('cancelar/{ruta}',function($ruta){
-return redirect()->route('Admin.Categoria.index')->with('cancelar','Cancelado Correctamente');
+return redirect()->route($ruta)->with('cancelar','Cancelado Correctamente');
 })->name('cancelar');

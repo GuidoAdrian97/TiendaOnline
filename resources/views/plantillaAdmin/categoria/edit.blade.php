@@ -14,7 +14,7 @@
 <!-- Default box -->
 
 <span style="display:none" id='editar'>{{$editar}}</span>
-<span style="display:none" id='nombretemp'>{{$cat->nombre}}</span>
+<span style="display:none" id='nombretemp'>{{$cat->nombre_Cat}}</span>
       <div class="card">
         <div class="card-header">
           <h3 class="card-title">Editar</h3>
@@ -46,13 +46,9 @@
                     <br v-if='div_aparecer'>
                     <label for="descripcion">Descripcion</label>
 
-                    <textarea class="form-control" type="text" name="descripcion" id="descripcion">{{$cat->descripcion}}</textarea>
+                    <textarea class="form-control" type="text" name="descripcion" id="descripcion">{{$cat->descripcion_Cat}}</textarea>
 
                 </div>
-                
-            
-       
-
 
 
 

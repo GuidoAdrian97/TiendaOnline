@@ -14,7 +14,7 @@
 <!-- Default box -->
 
 <span style="display:none" id='editar'>{{$editar}}</span>
-<span style="display:none" id='nombretemp'>{{$cat->nombre}}</span>
+<span style="display:none" id='nombretemp'>{{$cat->nombre_Cat}}</span>
       <div class="card">
         <div class="card-header">
           <h3 class="card-title">Ver</h3>
@@ -43,14 +43,14 @@
                     
                     <label  for="descripcion">Descripcion</label>
 
-                    <textarea readonly class="form-control" type="text" name="descripcion" id="descripcion">{{$cat->descripcion}}</textarea>
+                    <textarea readonly class="form-control" type="text" name="descripcion" id="descripcion">{{$cat->descripcion_Cat}}</textarea>
 
                 </div>
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
           <a class="btn btn-danger" href="{{route('cancelar','Admin.Categoria.index')}}" title="">Cancelar</a> 
-          <a class="btn btn-success float-rigth" href="{{route('Admin.Categoria.edit',$cat->slug)}}" title="">Editar</a> 
+          <a class="btn btn-success float-rigth" href="{{route('Admin.Categoria.edit',$cat->slug_Cat)}}" title="">Editar</a> 
         </div>
         <!-- /.card-footer-->
       </div>
