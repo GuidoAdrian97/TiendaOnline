@@ -1,6 +1,7 @@
 <?php
 use App\Porducto;
 use App\Categoria;
+use App\Image;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,6 +12,19 @@ use App\Categoria;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//provar imagenes
+Route::get('/prueba', function () {
+
+	$producto= App\Porducto::with('images')->get();
+
+return $producto->find(1)->images->find(3);
+});
+//mostrar resultados
+Route::get('/resultados', function () {
+	$imagen= App\Image::orderBy('id','Desc')->get();
+
+    return $imagen;
+});
 
 Route::get('/', function () {
 

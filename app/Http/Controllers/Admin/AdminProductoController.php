@@ -8,6 +8,9 @@ use App\Porducto;
 use App\Categoria;
 class AdminProductoController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +19,7 @@ class AdminProductoController extends Controller
     public function index(Request $request)
     {
       $nombre= $request->get('nombre');
-        $productos=Porducto::where('nombre_Pro','like',"%$nombre%")->orderBy('nombre_Pro')->paginate(2);
+        $productos=Porducto::with('images','categoria')->where('nombre_Pro','like',"%$nombre%")->orderBy('nombre_Pro')->paginate(2);
 
         return view('plantillaAdmin.producto.index',compact('productos'));
     }
@@ -29,9 +32,12 @@ class AdminProductoController extends Controller
     public function create()
     {
 
+
+
         $categorias=Categoria::orderBy('nombre_Cat')->get();
 
-        return view('plantillaAdmin.producto.create',compact('categorias'));
+        $estados_productos=$this->Estados_Productos();
+        return view('plantillaAdmin.producto.create',compact('categorias','estados_productos'));
     }
 
     /**
@@ -42,6 +48,29 @@ class AdminProductoController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+            'nombre'=>'required|unique:porductos,nombre_Pro',
+            'slug'=>'required|unique:porductos,slug_Pro',
+            'imagenes.*'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+         ]);
+
+        $urlimagenes=[];
+
+        if($request->hasFile('imagenes')){
+            $imagenes=$request->file('imagenes');
+            foreach ($imagenes as $imagen) {
+                $nombre= time().'_'.$imagen->getClientOriginalName();
+
+                $ruta=public_path().'/imagenes';
+                $imagen->move($ruta,$nombre);
+
+                $urlimagenes[]['url']='/imagenes/'.$nombre;
+            }
+        }
+
+
+
         $prod= new Porducto();
 
         $prod->nombre_Pro=$request->nombre;
@@ -70,9 +99,8 @@ class AdminProductoController extends Controller
              $prod->slinderprincipal_Pro='Si';
         }
         $prod->save();
-        return $prod;
-
-
+        $prod->images()->createMany($urlimagenes);
+        return redirect()->route('Admin.Producto.index')->with('datos','Registro Creado Correctamente');
      }
     /**
      * Display the specified resource.
@@ -82,7 +110,12 @@ class AdminProductoController extends Controller
      */
     public function show($slug)
     {
-       
+       $producto =Porducto::with('images','categoria')->where('slug_Pro',$slug)->firstOrFail();
+        $categorias=Categoria::orderBy('nombre_Cat')->get();
+
+        $estados_productos=$this->Estados_Productos();
+
+        return view('plantillaAdmin.producto.show',compact('producto','categorias','estados_productos'));
     }
 
     /**
@@ -93,12 +126,68 @@ class AdminProductoController extends Controller
      */
     public function edit($slug)
     {
+        $producto =Porducto::with('images','categoria')->where('slug_Pro',$slug)->firstOrFail();
+        $categorias=Categoria::orderBy('nombre_Cat')->get();
 
+        $estados_productos=$this->Estados_Productos();
+
+        return view('plantillaAdmin.producto.edit',compact('producto','categorias','estados_productos'));
     }
 
     public function update(Request $request, $id)
     {
-        
+        $request->validate([
+            'nombre'=>'required|unique:porductos,nombre_Pro,'.$id,
+            'slug'=>'required|unique:porductos,slug_Pro,'.$id,
+            'imagenes.*'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+         ]);
+
+        $urlimagenes=[];
+
+        if($request->hasFile('imagenes')){
+            $imagenes=$request->file('imagenes');
+            foreach ($imagenes as $imagen) {
+                $nombre= time().'_'.$imagen->getClientOriginalName();
+
+                $ruta=public_path().'/imagenes';
+                $imagen->move($ruta,$nombre);
+
+                $urlimagenes[]['url']='/imagenes/'.$nombre;
+            }
+        }
+
+
+
+        $prod= Porducto::findOrFail($id);
+
+        $prod->nombre_Pro=$request->nombre;
+        $prod->slug_Pro=$request->slug;
+        $prod->categoria_id=$request->categoria_id;
+        $prod->cantidad_Pro=$request->cantidad;
+        $prod->precio_anterior_Pro=$request->precio_anterior_Pro;
+        $prod->precio_actual_Pro=$request->precio_actual_Pro;
+        $prod->porcentaje_descuento_Pro=$request->porcentaje_descuento_Pro;
+        $prod->descripcion_corta_Pro=$request->descripcion_corta_Pro;
+        $prod->descripcion_larga_Pro=$request->descripcion_larga_Pro;
+        $prod->especificacion_Pro=$request->especificacion_Pro;
+        $prod->datoInteres_Pro=$request->datoInteres_Pro;
+        $prod->estado_Pro=$request->estado_Pro;
+
+        if($request->activo_Pro){
+             $prod->activo_Pro='Si';
+        }
+        else{
+             $prod->activo_Pro='No';
+        }
+        if($request->slinderprincipal_Pro){
+             $prod->slinderprincipal_Pro='Si';
+        }
+        else{
+             $prod->slinderprincipal_Pro='Si';
+        }
+        $prod->save();
+        $prod->images()->createMany($urlimagenes);
+        return redirect()->route('Admin.Producto.edit',$prod->slug_Pro)->with('datos','Registro Actualizado Correctamente');
        
     }
 
@@ -111,5 +200,14 @@ class AdminProductoController extends Controller
     public function destroy($id)
     {
        
+    }
+
+    public function Estados_Productos(){
+        return [
+            '',
+            'Nuevo',
+            'En Oferta',
+            'Popular'
+        ];
     }
 }

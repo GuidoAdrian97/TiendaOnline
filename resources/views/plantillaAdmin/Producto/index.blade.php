@@ -12,7 +12,19 @@
 
 
 @section('contenido')
-
+<style type="text/css" >
+  .table1{
+    width: 100%;
+    margin-bottom: 1rem;
+    color:#212529;
+    text-align: center;
+  }
+  .table1 td, .table1 th{
+    padding: .75rem;
+    vertical-align: center;
+    border-top: 1px solid #dee2e6;
+  }
+</style>
 
 
       <div id="apiconfirmareliminar" class="row">
@@ -41,31 +53,38 @@
               </div>
               
 
-              <div class="card-body table-responsive p-0" style="height: 300px">
+              <div class="card-body table-responsive p-0" style="height: 430px">
 
               	<a class="m-2 float-right btn btn-primary" href="{{ route('Admin.Producto.create') }}" > <i class="far fa-plus-square"></i> producto</a>
 
-                <table class="table table-head-fixed">
+                <table class="table1 table-head-fixed">
                   <thead>
                     <tr>
                       <th>ID</th>
+                      <th>Imagenes</th>
                       <th>Nombre</th>
-                      <th>Slug</th>
-                      <th>Descripcion</th>
-                      <th>Fecha Creacion</th>
-                      <th>Fecha Modificacion</th>
+                      <th>Estado</th>
+                      <th>Activo</th>
+                      <th>Slider Principal</th>
                       <th colspan="3"></th>
                     </tr>
                   </thead>
                   <tbody>
                     @foreach ($productos as $producto)
                     	<tr>
-                      <td>{{$producto->id}}</td>	
-                      <td>{{$producto->nombre_Pro}}</td>
-                      <td>{{$producto->slug_Pro}}</td>
-                      <td>{{$producto->descripcion_Pro}}</td>
-                      <td>{{$producto->updated_at}}</td>
-                      <td>{{$producto->created_at}}</td>
+
+                      <td>{{$producto->id}}</td>
+                      <td>
+                        @if($producto->images->count()<=0)
+                        <img style="height:100px; width:100px" " src="/imagenes/avatar.png" class="rounded-circle" >
+                        @else
+                        <img style="height:100px; width:100px" src="{{$producto->images->random()->url}}" class="rounded-circle" >
+                        @endif
+                      </td>
+                      <td>{{$producto->nombre_Pro}}</td>                      
+                      <td>{{$producto->estado_Pro}}</td>
+                      <td>{{$producto->activo_Pro}}</td>
+                      <td>{{$producto->slinderprincipal_Pro}}</td>
                       <td ><a class="btn btn-default" href="{{ route('Admin.Producto.show',$producto->slug_Pro) }}" > <i class="far fa-eye"></i></a></td>
                       <td ><a class="btn btn-info" href="{{ route('Admin.Producto.edit',$producto->slug_Pro) }}" > <i class="far fa-edit"></i></a></td>
                       <td ><a v-on:click.prevent="deseas_eliminar({{$producto->id}})" class="btn btn-danger" href="{{ route('Admin.Producto.index') }}" > <i class="far fa-trash-alt"></i></a></td>

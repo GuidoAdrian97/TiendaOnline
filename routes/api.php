@@ -17,5 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('categoria','API\categoriaController')->names('ApiCategoria');
-Route::apiResource('producto','API\ProductoController')->names('ApiCategoria');
+Route::apiResource('categoria','API\categoriaController')->names('Api.Categoria');
+Route::apiResource('producto','API\ProductoController')->names('Api.Producto');
+
+Route::delete('/eliminarimagen/{id}','API\ProductoController@eliminarimagen')->name('Api.eliminarimagen');

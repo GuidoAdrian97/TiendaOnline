@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Categoria;
 class AdminController extends Controller
 {
     /**
@@ -12,11 +11,18 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
+
+public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
-        //
-    }
 
+        return view('plantilla.admin');
+    }
     /**
      * Show the form for creating a new resource.
      *

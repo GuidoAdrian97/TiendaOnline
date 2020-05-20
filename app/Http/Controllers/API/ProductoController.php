@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Porducto;
+use App\Image;
+use Illuminate\Support\Facades\File;
 class ProductoController extends Controller
 {
     public function index()
@@ -25,5 +27,14 @@ class ProductoController extends Controller
             return 'Slug Disponible';
         }
        
+    }
+
+    public function eliminarimagen($id)
+    {
+        $imagen=Image::find($id);
+        $archivo=substr($imagen->url,1);
+        $eliminar=File::delete($archivo);
+        $imagen->delete();
+       return 'La imagen con id '+$id+' se elimino correctamente';
     }
 }

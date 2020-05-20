@@ -49868,7 +49868,13 @@ var apiproducto = new Vue({
     div_mensajeSlug: 'Slug Existe',
     div_class_slug: 'badge badge-success',
     div_aparecer: false,
-    des_buton: 1
+    des_buton: 1,
+    //var precio
+    precio_anterior_Pro: 0,
+    precio_actual_Pro: 0,
+    descuento: 0,
+    porcentaje_descuento_Pro: 0,
+    descuento_mensaje: '0'
   },
   computed: {
     generarSlug: function generarSlug() {
@@ -49893,30 +49899,78 @@ var apiproducto = new Vue({
         return _char[e];
       }).toLowerCase();
       return this.slug;
+    },
+    generar_descuento: function generar_descuento() {
+      if (this.porcentaje_descuento_Pro > 100 || this.porcentaje_descuento_Pro < 0) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No puede poner un descuento mayor al 100% o menor a 0!'
+        });
+        this.porcentaje_descuento_Pro = 0;
+        this.descuento_mensaje = '0';
+        this.precio_actual_Pro = precio_anterior_Pro;
+      }
+
+      if (this.porcentaje_descuento_Pro > 0) {
+        this.descuento = this.precio_anterior_Pro * this.porcentaje_descuento_Pro / 100;
+        this.precio_actual_Pro = this.precio_anterior_Pro - this.descuento;
+
+        if (this.porcentaje_descuento_Pro == 100) {
+          this.descuento_mensaje = 'Este producto es gratis' + this.descuento;
+        } else {
+          this.descuento_mensaje = 'Hay un descuento de $' + this.descuento;
+        }
+
+        return this.descuento_mensaje;
+      } else {
+        this.descuento = '';
+        this.precio_actual_Pro = this.precio_anterior_Pro;
+        this.descuento_mensaje = '';
+        return this.descuento_mensaje;
+      }
     }
   },
   methods: {
+    eliminarimagen: function eliminarimagen(imagen) {
+      //
+      Swal.fire({
+        title: 'Seguro desea eliminar imagen?',
+        text: "Si elimina la imagen no la podra recuperar!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!'
+      }).then(function (result) {
+        if (result.value) {
+          var url = '/api/eliminarimagen/' + imagen.id;
+          axios["delete"](url).then(function (response) {
+            console.log(response.data);
+          });
+          var elemento = document.getElementById('idimagen-' + imagen.id);
+          elemento.parentNode.removeChild(elemento);
+          Swal.fire('Eliminada!', 'La imagen se elimino', 'success');
+        }
+      });
+    },
     getProducto: function getProducto() {
       var _this = this;
 
       if (this.slug) {
         var url = '/api/producto/' + this.slug;
-        debugger;
         axios.get(url).then(function (response) {
           _this.div_mensajeSlug = response.data;
 
           if (_this.div_mensajeSlug === "Slug Disponible") {
             _this.div_class_slug = "badge badge-success";
             _this.des_buton = 0;
-            debugger;
           } else {
             _this.div_class_slug = "badge badge-danger";
             _this.des_buton = 1;
-            debugger;
           }
 
           _this.div_aparecer = true;
-          debugger;
         });
       } else {
         this.div_class_slug = "badge badge-danger";
@@ -49927,10 +49981,14 @@ var apiproducto = new Vue({
     }
   },
   mounted: function mounted() {
-    if (document.getElementById('editar')) {
-      this.nombre = document.getElementById('nombretemp').innerHTML;
+    if (data.editar == 'Si') {
+      this.nombre = data.datos.nombre;
+      this.precio_anterior_Pro = data.datos.precio_anterior_Pro;
+      this.porcentaje_descuento_Pro = data.datos.porcentaje_descuento_Pro;
       this.des_buton = 0;
     }
+
+    console.log(data);
   }
 });
 
