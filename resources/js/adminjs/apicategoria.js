@@ -27,20 +27,28 @@ const apicategoria = new Vue({
 
                 if(this.slug){
                 let url= '/api/categoria/'+this.slug;
-                debugger
+
                 axios.get(url).then(response=>{
                     this.div_mensajeSlug= response.data;
                    if(this.div_mensajeSlug==="Slug Disponible"){
                     this.div_class_slug="badge badge-success";
                     this.des_buton=0;
-debugger
+
                    }else{
                     this.div_class_slug="badge badge-danger"
                     this.des_buton=1;
-                 debugger
+
                    }
                    this.div_aparecer=true
-                 debugger
+               if(document.getElementById('editar')){
+                        if(document.getElementById('nombretemp').innerHTML===this.nombre){
+                        this.des_buton = 0;
+                        this.div_mensajeSlug='';
+                        this.div_class_slug='';
+                        this.div_aparecer = false;
+                        }
+                    
+                    }
                 })
                 }
                 else{

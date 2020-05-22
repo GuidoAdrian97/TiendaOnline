@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Porducto;
 use App\Categoria;
+use Illuminate\Support\Facades\File;
 class AdminProductoController extends Controller
 {
     public function __construct(){
@@ -199,7 +200,16 @@ class AdminProductoController extends Controller
      */
     public function destroy($id)
     {
-       
+        $prod= Porducto::with('images')->findOrFail($id);
+        foreach ($prod->images as $imagen) {
+          
+        $archivo=substr($imagen->url,1);
+        File::delete($archivo);
+        $imagen->delete();
+        }
+
+        $prod->delete();
+        return redirect()->route('Admin.Producto.index')->with('datos','Registro Eliminado Correctamente');
     }
 
     public function Estados_Productos(){

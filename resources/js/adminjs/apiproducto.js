@@ -127,13 +127,21 @@ const apiproducto = new Vue({
                         
                     }
                     this.div_aparecer = true
+                    if(data.datos.nombre){
+                        if(data.datos.nombre===this.nombre){
+                        this.des_buton = 0;
+                        this.div_mensajeSlug='';
+                        this.div_class_slug='';
+                        this.div_aparecer = false;
+                        }
                     
+                    }
                 })
             } else {
                 this.div_class_slug = "badge badge-danger";
                 this.div_mensajeSlug = "Debes scribir un producto";
                 this.des_buton = 1;
-                this.div_aparecer = true
+                this.div_aparecer = true;
             }
 
         }

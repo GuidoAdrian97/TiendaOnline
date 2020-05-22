@@ -14624,22 +14624,27 @@ var apicategoria = new Vue({
 
       if (this.slug) {
         var url = '/api/categoria/' + this.slug;
-        debugger;
         axios.get(url).then(function (response) {
           _this.div_mensajeSlug = response.data;
 
           if (_this.div_mensajeSlug === "Slug Disponible") {
             _this.div_class_slug = "badge badge-success";
             _this.des_buton = 0;
-            debugger;
           } else {
             _this.div_class_slug = "badge badge-danger";
             _this.des_buton = 1;
-            debugger;
           }
 
           _this.div_aparecer = true;
-          debugger;
+
+          if (document.getElementById('editar')) {
+            if (document.getElementById('nombretemp').innerHTML === _this.nombre) {
+              _this.des_buton = 0;
+              _this.div_mensajeSlug = '';
+              _this.div_class_slug = '';
+              _this.div_aparecer = false;
+            }
+          }
         });
       } else {
         this.div_class_slug = "badge badge-danger";
@@ -14777,6 +14782,15 @@ var apiproducto = new Vue({
           }
 
           _this.div_aparecer = true;
+
+          if (data.datos.nombre) {
+            if (data.datos.nombre === _this.nombre) {
+              _this.des_buton = 0;
+              _this.div_mensajeSlug = '';
+              _this.div_class_slug = '';
+              _this.div_aparecer = false;
+            }
+          }
         });
       } else {
         this.div_class_slug = "badge badge-danger";
