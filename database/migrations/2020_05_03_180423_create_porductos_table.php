@@ -14,10 +14,10 @@ class CreatePorductosTable extends Migration
     public function up()
     {
         Schema::create('porductos', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('nombre_Pro',50)->unique();
             $table->string('slug_Pro',50)->unique();
-            $table->unsignedbigInteger('categoria_id');
+            
             $table->bigInteger('cantidad_Pro')->unsigned()->default(0);
             $table->decimal('precio_actual_Pro',12,2)->default(0);
             $table->decimal('precio_anterior_Pro',12,2)->default(0);
@@ -32,7 +32,7 @@ class CreatePorductosTable extends Migration
             $table->char('activo_Pro',2);
             $table->char('slinderprincipal_Pro',2);
             $table->timestamps();
-            $table->foreign('categoria_id')->references('id')->on('categorias');
+            $table->foreignId('categoria_id')->references('id')->on('categorias');
         });
     }
 

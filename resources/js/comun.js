@@ -17,6 +17,9 @@ if(document.getElementById('apicategoria')){
 if(document.getElementById('apiproducto')){
               require('./adminjs/apiproducto');  
             };
+if(document.getElementById('apirol')){
+              require('./adminjs/apirol');  
+            };
 if(document.getElementById('apiconfirmareliminar')){
                require('./apiconfirmareliminar'); 
             };

@@ -19,5 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiResource('categoria','API\categoriaController')->names('Api.Categoria');
 Route::apiResource('producto','API\ProductoController')->names('Api.Producto');
-
+Route::apiResource('rol','API\RolController')->names('Api.Rol');
 Route::delete('/eliminarimagen/{id}','API\ProductoController@eliminarimagen')->name('Api.eliminarimagen');

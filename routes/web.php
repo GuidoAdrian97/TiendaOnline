@@ -1,7 +1,11 @@
 <?php
+use Illuminate\Support\Facades\Gate;
 use App\Porducto;
 use App\Categoria;
 use App\Image;
+use App\User;
+use App\ModelRoles\Roles;
+use App\ModelRoles\Permisos;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,9 +19,43 @@ use App\Image;
 //provar imagenes
 Route::get('/prueba', function () {
 
-	$producto= App\Porducto::with('images')->get();
+	// return Roles::create([
+	// 	'nombre'=>'Editor',
+	// 	'slug'=>'edito',
+	// 	'descripcion'=>'Persona que edita',
+	// 	'fullacceso'=>'no'
+	// ]);
+	
+	// return Roles::create([
+	// 	'nombre'=>'Admin',
+	// 	'slug'=>'admin',
+	// 	'descripcion'=>'administador',
+	// 	'fullacceso'=>'yes'
+	// ]); 
+	// 
+	// $rol= User::find(1);
+	// $rol->roles()->attach([1]);
+	// $rol->roles()->sync([1,2]);
+	// return $rol->roles;
+	
+	// return Permisos::create([
+	// 	'nombre'=>'Editar Productos',
+	// 	'slug'=>'Admin.Producto.edit',
+	// 	'descripcion'=>'Perosna encargada de Editar productos',
+		
+	// ]); 
+	// // 
+	// $rol= Roles::find(1);
+	// $rol->permisos()->attach([1]);
+	// return $rol->permisos;
+	$usuario = User::find(2);
+	// $usuario->roles()->sync([1]);
+	// return $usuario->havepermisos('Admin.Producto.show');
+	Gate::authorize('haveacceso','Admin.Producto.show');
+	return $usuario;
 
-return $producto->find(1)->images->find(3);
+	
+	
 });
 //mostrar resultados
 Route::get('/resultados', function () {
@@ -52,8 +90,10 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/admin', function () {
-	return view('plantilla.admin');
-})->name('admin');
+	return view('plantillaAdmin.index');
+})->name('admin')->middleware('auth');
+
+Route::resource('/admin/rol', 'RolesController')->names('Admin.Rol');
 
 Route::resource('/admin/categoria','Admin\AdminCategoriaController')->names('Admin.Categoria');
 Route::resource('/admin/producto','Admin\AdminProductoController')->names('Admin.Producto');

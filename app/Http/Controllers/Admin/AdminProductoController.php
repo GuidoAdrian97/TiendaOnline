@@ -7,11 +7,10 @@ use Illuminate\Http\Request;
 use App\Porducto;
 use App\Categoria;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 class AdminProductoController extends Controller
 {
-    public function __construct(){
-        $this->middleware('auth');
-    }
+   
     /**
      * Display a listing of the resource.
      *
@@ -19,6 +18,7 @@ class AdminProductoController extends Controller
      */
     public function index(Request $request)
     {
+        Gate::authorize('haveacceso','Admin.Producto.index');
       $nombre= $request->get('nombre');
         $productos=Porducto::with('images','categoria')->where('nombre_Pro','like',"%$nombre%")->orderBy('nombre_Pro')->paginate(2);
 
@@ -32,9 +32,7 @@ class AdminProductoController extends Controller
      */
     public function create()
     {
-
-
-
+        Gate::authorize('haveacceso','Admin.Producto.create');
         $categorias=Categoria::orderBy('nombre_Cat')->get();
 
         $estados_productos=$this->Estados_Productos();
@@ -49,7 +47,7 @@ class AdminProductoController extends Controller
      */
     public function store(Request $request)
     {
-
+Gate::authorize('haveacceso','Admin.Producto.create');
         $request->validate([
             'nombre'=>'required|unique:porductos,nombre_Pro',
             'slug'=>'required|unique:porductos,slug_Pro',
@@ -111,6 +109,7 @@ class AdminProductoController extends Controller
      */
     public function show($slug)
     {
+        Gate::authorize('haveacceso','Admin.Producto.show');
        $producto =Porducto::with('images','categoria')->where('slug_Pro',$slug)->firstOrFail();
         $categorias=Categoria::orderBy('nombre_Cat')->get();
 
@@ -127,6 +126,7 @@ class AdminProductoController extends Controller
      */
     public function edit($slug)
     {
+        Gate::authorize('haveacceso','Admin.Producto.edit');
         $producto =Porducto::with('images','categoria')->where('slug_Pro',$slug)->firstOrFail();
         $categorias=Categoria::orderBy('nombre_Cat')->get();
 
@@ -137,6 +137,7 @@ class AdminProductoController extends Controller
 
     public function update(Request $request, $id)
     {
+        Gate::authorize('haveacceso','Admin.Producto.edit');
         $request->validate([
             'nombre'=>'required|unique:porductos,nombre_Pro,'.$id,
             'slug'=>'required|unique:porductos,slug_Pro,'.$id,
@@ -200,6 +201,7 @@ class AdminProductoController extends Controller
      */
     public function destroy($id)
     {
+        Gate::authorize('haveacceso','Admin.Producto.destroy');
         $prod= Porducto::with('images')->findOrFail($id);
         foreach ($prod->images as $imagen) {
           

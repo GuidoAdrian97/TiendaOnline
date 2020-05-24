@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateImagesTable extends Migration
+class CreatePermisosRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('images', function (Blueprint $table) {
+        Schema::create('permisos_roles', function (Blueprint $table) {
             $table->id();
-            $table->string('url');
-            $table->morphs('imageable');
+            $table->foreignId('roles_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->foreignId('permisos_id')->references('id')->on('permisos')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateImagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('images');
+        Schema::dropIfExists('permisos_roles');
     }
 }

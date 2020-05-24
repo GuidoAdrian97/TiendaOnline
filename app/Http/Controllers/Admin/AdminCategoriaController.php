@@ -5,12 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Categoria;
+use Illuminate\Support\Facades\Gate;
 class AdminCategoriaController extends Controller
 {
 
-    public function __construct(){
-        $this->middleware('auth');
-    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +17,7 @@ class AdminCategoriaController extends Controller
      */
     public function index(Request $request)
     {
+        Gate::authorize('haveacceso','Admin.Categoria.index');
         $nombre= $request->get('nombre');
         $categorias=Categoria::where('nombre_Cat','like',"%$nombre%")->orderBy('nombre_Cat')->paginate(2);
 
@@ -31,6 +31,7 @@ class AdminCategoriaController extends Controller
      */
     public function create()
     {
+        Gate::authorize('haveacceso','Admin.Categoria.create');
           return view('plantillaAdmin.categoria.crear');
     }
 
@@ -42,6 +43,7 @@ class AdminCategoriaController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('haveacceso','Admin.Categoria.create');
          $cat = new Categoria();
 
          $request->validate([
@@ -63,6 +65,7 @@ class AdminCategoriaController extends Controller
      */
     public function show($slug)
     {
+        Gate::authorize('haveacceso','Admin.Categoria.show');
         $cat= Categoria::where('slug_Cat',$slug)->firstOrFail();
         $editar='Si';
         return view('plantillaAdmin.categoria.show',compact('cat','editar'));
@@ -76,6 +79,7 @@ class AdminCategoriaController extends Controller
      */
     public function edit($slug)
     {
+        Gate::authorize('haveacceso','Admin.Categoria.edit');
          $cat= Categoria::where('slug_Cat',$slug)->firstOrFail();
         $editar='Si';
         return view('plantillaAdmin.categoria.edit',compact('cat','editar'));
@@ -90,11 +94,11 @@ class AdminCategoriaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        Gate::authorize('haveacceso','Admin.Categoria.edit');
         $cat= Categoria::findOrFail($id);
         $request->validate([
-            'nombre'=>'required|max:50|unique:categorias,nombre_Cat',
-            'slug'=>'required|max:50|unique:categorias,slug_Cat',
+            'nombre'=>'required|max:50|unique:categorias,nombre_Cat,'.$cat->id,
+            'slug'=>'required|max:50|unique:categorias,slug_Cat,'.$cat->id,
          ]);
         $cat->nombre_Cat=$request->nombre;
         $cat->slug_Cat=$request->slug;
@@ -113,6 +117,7 @@ class AdminCategoriaController extends Controller
      */
     public function destroy($id)
     {
+        Gate::authorize('haveacceso','Admin.Categoria.destroy');
         $cat= Categoria::findOrFail($id);
         $cat->delete();
         return redirect()->route('Admin.Categoria.index')->with('datos','Registro Eliminado Correctamente');

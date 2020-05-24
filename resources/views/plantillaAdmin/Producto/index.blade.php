@@ -85,7 +85,12 @@
                       <td>{{$producto->estado_Pro}}</td>
                       <td>{{$producto->activo_Pro}}</td>
                       <td>{{$producto->slinderprincipal_Pro}}</td>
-                      <td ><a class="btn btn-default" href="{{ route('Admin.Producto.show',$producto->slug_Pro) }}" > <i class="far fa-eye"></i></a></td>
+                      <td >
+                        
+                      <a class="btn btn-default" href="{{ route('Admin.Producto.show',$producto->slug_Pro) }}" > <i class="far fa-eye"></i>
+                      </a>
+                      
+                      </td>
                       <td ><a class="btn btn-info" href="{{ route('Admin.Producto.edit',$producto->slug_Pro) }}" > <i class="far fa-edit"></i></a></td>
                       <td ><a v-on:click.prevent="deseas_eliminar({{$producto->id}})" class="btn btn-danger" href="{{ route('Admin.Producto.index') }}" > <i class="far fa-trash-alt"></i></a></td>
                       

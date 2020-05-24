@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Categoria;
 
+
 class categoriaController extends Controller
 {
     /**
@@ -15,6 +16,7 @@ class categoriaController extends Controller
      */
     public function index()
     {
+
        //  $cat=new Categoria();
        // $cat->nombre='Mujer';
        // $cat->slug='mujer';

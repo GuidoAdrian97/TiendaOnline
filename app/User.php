@@ -40,4 +40,26 @@ class User extends Authenticatable
     public function image(){
         return $this->morphOne('App\Image','imageable');
     }
+
+    public function roles(){
+        return $this->belongsToMany('App\ModelRoles\Roles')->withTimesTamps();
+    }
+
+    public function havepermisos($permisos){
+
+        foreach ($this->roles as $rol) {
+           if($rol['fullacceso']=='yes'){
+            return true;
+           }
+           foreach ($rol->permisos as $perm) {
+           if($perm->slug==$permisos){
+            return true;
+           }
+
+        }
+
+        }
+       return false;
+    }
+
 }
