@@ -8,7 +8,8 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use App\ModelRoles\Roles;
+use App\ModelRoles\Permisos;
 class RegisterController extends Controller
 {
     /*
@@ -64,10 +65,132 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        //VALIDAR SI SE REGISTRA EL PRIMER USUARIO
+        $user= User::get();
+        if($user->isNotEmpty()){
+            $rolid = Roles::where('slug','cliente')->firstOrFail();
+         
+     }else{
+        //Permiso CLiente
+        Permisos::create([
+         'nombre'=>'cliente',
+         'slug'=>'cliente',
+         'descripcion'=>'cliente',       
+        ]);
+
+        Permisos::create([
+         'nombre'=>'Seccion Admin',
+         'slug'=>'admin',
+         'descripcion'=>'Accede a la vista principal de administrador',       
+        ]);
+
+        Roles::create([
+        'nombre'=>'Cliente',
+        'slug'=>'cliente',
+        'descripcion'=>'Tiene acceso solo a las vistas de cliente',
+        'fullacceso'=>'no'
+        ]); 
+        
+        Roles::create([
+        'nombre'=>'Super Administrador',
+        'slug'=>'super_administrador',
+        'descripcion'=>'Tiene acceso a todo',
+        'fullacceso'=>'yes'
+        ]); 
+        $rolid = Roles::where('slug','super_administrador')->firstOrFail();
+
+        //PERMISOS CATEGORIA
+        Permisos::create([
+         'nombre'=>'Ve lista Categorias',
+         'slug'=>'Admin.Categoria.index',
+         'descripcion'=>'Ve lista de las categorias',       
+        ]);
+        Permisos::create([
+         'nombre'=>'Crear Categorias Productos',
+         'slug'=>'Admin.Categoria.create',
+         'descripcion'=>'Crea categorias de productos',       
+        ]);
+        Permisos::create([
+         'nombre'=>'Ve Categoria',
+         'slug'=>'Admin.Categoria.show',
+         'descripcion'=>'Ve lista de categorias y todos sus datos',       
+        ]);
+        Permisos::create([
+         'nombre'=>'Edita categoria de producto',
+         'slug'=>'Admin.Categoria.edit',
+         'descripcion'=>'Edita categorias de productos',       
+        ]);
+        Permisos::create([
+         'nombre'=>'Elimina Categoria',
+         'slug'=>'Admin.Categoria.destroy',
+         'descripcion'=>'Elimina categorias de productos',       
+        ]);
+
+        //PRODUCTOS PERMISOS
+        Permisos::create([
+         'nombre'=>'Ve lista Productos',
+         'slug'=>'Admin.Producto.index',
+         'descripcion'=>'Ve lista de productos',       
+        ]);
+        Permisos::create([
+         'nombre'=>'Crear Productos',
+         'slug'=>'Admin.Producto.create',
+         'descripcion'=>'Crea productos',       
+        ]);
+        Permisos::create([
+         'nombre'=>'Ve Producto',
+         'slug'=>'Admin.Producto.show',
+         'descripcion'=>'Ve lista de productos y todos sus datos',       
+        ]);
+        Permisos::create([
+         'nombre'=>'Edita Producto',
+         'slug'=>'Admin.Producto.edit',
+         'descripcion'=>'Edita cualquier productos',       
+        ]);
+        Permisos::create([
+         'nombre'=>'Elimina Producto',
+         'slug'=>'Admin.Producto.destroy',
+         'descripcion'=>'Elimina cualquier productos',       
+        ]);
+
+        //ROL PERMISOS
+        Permisos::create([
+         'nombre'=>'Ve lista Rol',
+         'slug'=>'Admin.Rol.index',
+         'descripcion'=>'Ve lista de Rol',       
+        ]);
+        Permisos::create([
+         'nombre'=>'Crear Rol',
+         'slug'=>'Admin.Rol.create',
+         'descripcion'=>'Crea Rol',       
+        ]);
+        Permisos::create([
+         'nombre'=>'Ve Rol',
+         'slug'=>'Admin.Rol.show',
+         'descripcion'=>'Ve lista de Rol y todos sus datos',       
+        ]);
+        Permisos::create([
+         'nombre'=>'Edita Rol',
+         'slug'=>'Admin.Rol.edit',
+         'descripcion'=>'Edita cualquier Rol',       
+        ]);
+        Permisos::create([
+         'nombre'=>'Elimina Rol',
+         'slug'=>'Admin.Rol.destroy',
+         'descripcion'=>'Elimina cualquier Rol',       
+        ]);
+        
+
+     }
+        User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-        ]);
+        ])->roles()->sync([$rolid->id]);
+        
+         $newuser= User::where('name',$data['name'])->firstOrFail();
+         
+         
+         return $newuser;
     }
 }

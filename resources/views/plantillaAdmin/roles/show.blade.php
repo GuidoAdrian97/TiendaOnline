@@ -6,9 +6,9 @@
 @endsection
 @section('contenido')
 <div id=apirol>
-    <form action="{{ route('Admin.Rol.update',$roles->id) }}" method="POST">
+    <form >
         @csrf
-        @method('PUT')
+       
         <span style="display:none" id='editar'>{{$editar}}</span>
 <span style="display:none" id='nombretemp'>{{$roles->nombre}}</span>
         <!-- Default box -->
@@ -25,7 +25,7 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input readonly v-model="nombre" @blur="getCategoria" @focus="div_aparecer= false" class="form-control" type="text" name="nombre" id="nombre"
+                    <input readonly v-model="nombre" @blur="getRol" @focus="div_aparecer= false" class="form-control" type="text" name="nombre" id="nombre"
                     
                     >
                     <label for="slug">Slug</label>

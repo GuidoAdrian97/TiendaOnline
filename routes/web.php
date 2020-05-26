@@ -27,10 +27,10 @@ Route::get('/prueba', function () {
 	// ]);
 	
 	// return Roles::create([
-	// 	'nombre'=>'Admin',
-	// 	'slug'=>'admin',
-	// 	'descripcion'=>'administador',
-	// 	'fullacceso'=>'yes'
+	// 	'nombre'=>'cliente',
+	// 	'slug'=>'cliente',
+	// 	'descripcion'=>'cliente',
+	// 	'fullacceso'=>'no'
 	// ]); 
 	// 
 	// $rol= User::find(1);
@@ -39,22 +39,21 @@ Route::get('/prueba', function () {
 	// return $rol->roles;
 	
 	// return Permisos::create([
-	// 	'nombre'=>'Editar Productos',
-	// 	'slug'=>'Admin.Producto.edit',
-	// 	'descripcion'=>'Perosna encargada de Editar productos',
-		
+	// 	'nombre'=>'cliente',
+	// 	'slug'=>'cliente',
+	// 	'descripcion'=>'cliente',		
 	// ]); 
 	// // 
 	// $rol= Roles::find(1);
 	// $rol->permisos()->attach([1]);
 	// return $rol->permisos;
-	$usuario = User::find(2);
-	// $usuario->roles()->sync([1]);
+	// $usuario = User::find(2);
+	// $usuario->roles()->sync([4]);
 	// return $usuario->havepermisos('Admin.Producto.show');
-	Gate::authorize('haveacceso','Admin.Producto.show');
-	return $usuario;
+	// Gate::authorize('haveacceso','Admin.Producto.show');
+	// return $usuario;
 
-	
+	return User::get();
 	
 });
 //mostrar resultados
@@ -90,11 +89,12 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/admin', function () {
+	Gate::authorize('haveacceso','admin');
 	return view('plantillaAdmin.index');
 })->name('admin')->middleware('auth');
 
 Route::resource('/admin/rol', 'RolesController')->names('Admin.Rol');
-
+Route::resource('/admin/roles-usuario', 'Rol_UserController')->names('Admin.Rol_User');
 Route::resource('/admin/categoria','Admin\AdminCategoriaController')->names('Admin.Categoria');
 Route::resource('/admin/producto','Admin\AdminProductoController')->names('Admin.Producto');
 

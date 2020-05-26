@@ -16,9 +16,11 @@ class RolesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $roles = Roles::orderBy('id','Desc')->paginate(5);
+        
+         $nombre= $request->get('nombre');
+         $roles=Roles::where('nombre','like',"%$nombre%")->orderBy('id','Desc')->paginate(5);
         return view('plantillaAdmin.roles.index',compact('roles'));
     }
 
@@ -68,9 +70,9 @@ class RolesController extends Controller
     public function show($slug)
     {
         $roles= Roles::where('slug',$slug)->firstOrFail();
-         $permisos= Permisos::get();
-         $roles_permisos=[];
-         foreach ($roles->permisos as $permisosr) {
+        $permisos= Permisos::get();
+        $roles_permisos=[];
+        foreach ($roles->permisos as $permisosr) {
             $roles_permisos[]=$permisosr->id;
          }         
         $editar='Si';

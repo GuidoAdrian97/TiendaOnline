@@ -53,7 +53,7 @@ const apicategoria = new Vue({
                 }
                 else{
                     this.div_class_slug="badge badge-danger";
-                    this.div_mensajeSlug="Debes scribir categoria";
+                    this.div_mensajeSlug="Debes scribir una categoria";
                     this.des_buton=1;
                      this.div_aparecer=true
                 }

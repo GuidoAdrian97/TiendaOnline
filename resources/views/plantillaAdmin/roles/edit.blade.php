@@ -25,7 +25,7 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input v-model="nombre" @blur="getCategoria" @focus="div_aparecer= false" class="form-control" type="text" name="nombre" id="nombre"
+                    <input v-model="nombre" @blur="getRol" @focus="div_aparecer= false" class="form-control" type="text" name="nombre" id="nombre"
                     
                     >
                     <label for="slug">Slug</label>
@@ -49,8 +49,6 @@
                             Yes
                         </label>
                     </div>
-
-
                     <div class="form-check">
                         @if ( $roles->fullacceso == "no" )
                         <input class="form-check-input" type="radio" name="fullacceso" id="fullaccesono" value="No" checked >
@@ -62,6 +60,7 @@
                         </label>
                     </div>
                     <hr>
+                    <label for="nombre">Permiso</label> / <label for="nombre">Descripcion</label>
                   @foreach ($permisos as $permiso)
                     <div class="form-group form-check">
                   @if(in_array($permiso->id,$roles_permisos))
@@ -72,8 +71,7 @@
 
                     
                         
-                        <label class="form-check-label" for="exampleCheck1">{{$permiso->nombre}}
-                          <em>{{$permiso->descripcion}}</em>
+                        <label class="form-check-label" for="exampleCheck1">{{$permiso->nombre}} <em>    /{{$permiso->descripcion}}</em>
                         </label>
                     </div>
 

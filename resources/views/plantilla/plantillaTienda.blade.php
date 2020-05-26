@@ -12,9 +12,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <!-- Styles -->
+
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{ asset('PlantillaAdminLTE/dist/css/adminlte.min.css')}}">
 
 
 <link rel="stylesheet" type="text/css" href="{{ asset('PlantillaTienda/plugins/font-awesome-4.7.0/css/font-awesome.min.css')}}">
@@ -42,9 +44,9 @@
 			<!-- Navigation -->
 			<div class="menu_nav">
 				<ul>
-					<li><a href="#">Women</a></li>
-					<li><a href="#">Men</a></li>
-					<li><a href="#">Kids</a></li>
+					<li><a href="#">Mujer</a></li>
+					<li><a href="#">Hombre</a></li>
+					<li><a href="#">Niños</a></li>
 					
 				</ul>
 			</div>
@@ -70,7 +72,9 @@
 			<!-- Header -->
 
 			<header class="header">
+
 				<div class="header_overlay"></div>
+
 				<div class="header_content d-flex flex-row align-items-center justify-content-start">
 					<div class="logo">
 						<a href="">
@@ -85,9 +89,11 @@
 						<ul class="d-flex flex-row align-items-start justify-content-start">
 							<li class="active"><a href="#">Women</a></li>
 							<li><a href="#">Men</a></li>
-							<li><a href="#">Kids</a></li>					
+							<li><a href="#">Kids</a></li>
 						</ul>
 					</nav>
+					<div class="wrapper">					
+					</div>
 					<div class="header_right d-flex flex-row align-items-center justify-content-start ml-auto">
 						<!-- Search -->
 						<div class="header_search">
@@ -105,7 +111,42 @@
 							<div>+1 912-252-7350</div>
 						</div>
 					</div>
+					<nav class="main_nav">
+						<ul class="d-flex flex-row align-items-start justify-content-start">
+					 @guest
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </li>
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
+                        @else
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        @endguest
+                        </ul>	
+					</nav>
+
+					
 				</div>
+
 			</header>
 		@yield('contenido')
 
@@ -210,6 +251,7 @@
 
 		<script src="{{ asset('PlantillaTienda/js/jquery-3.2.1.min.js')}}"></script>
 		<!-- Scripts -->
+		
 		    <script src="{{ asset('js/app.js') }}" defer></script>
 		    <script src="{{ asset('js/all.js') }}" defer></script>
 </div>

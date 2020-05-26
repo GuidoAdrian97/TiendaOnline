@@ -20,6 +20,9 @@ if(document.getElementById('apiproducto')){
 if(document.getElementById('apirol')){
               require('./adminjs/apirol');  
             };
+if(document.getElementById('apiUsuario')){
+              require('./adminjs/apirol-usuario');  
+            };
 if(document.getElementById('apiconfirmareliminar')){
                require('./apiconfirmareliminar'); 
             };

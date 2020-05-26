@@ -54,9 +54,9 @@
               
 
               <div class="card-body table-responsive p-0" style="height: 430px">
-
+                 @if(Auth::user()->havepermisos("Admin.Producto.create"))
               	<a class="m-2 float-right btn btn-primary" href="{{ route('Admin.Producto.create') }}" > <i class="far fa-plus-square"></i> producto</a>
-
+                @endif
                 <table class="table1 table-head-fixed">
                   <thead>
                     <tr>
@@ -86,13 +86,22 @@
                       <td>{{$producto->activo_Pro}}</td>
                       <td>{{$producto->slinderprincipal_Pro}}</td>
                       <td >
-                        
+                      @if(Auth::user()->havepermisos("Admin.Producto.show"))
                       <a class="btn btn-default" href="{{ route('Admin.Producto.show',$producto->slug_Pro) }}" > <i class="far fa-eye"></i>
                       </a>
-                      
+                      @endif
                       </td>
-                      <td ><a class="btn btn-info" href="{{ route('Admin.Producto.edit',$producto->slug_Pro) }}" > <i class="far fa-edit"></i></a></td>
-                      <td ><a v-on:click.prevent="deseas_eliminar({{$producto->id}})" class="btn btn-danger" href="{{ route('Admin.Producto.index') }}" > <i class="far fa-trash-alt"></i></a></td>
+                      <td >
+                       @if(Auth::user()->havepermisos("Admin.Producto.edit"))
+                      <a class="btn btn-info" href="{{ route('Admin.Producto.edit',$producto->slug_Pro) }}" > <i class="far fa-edit"></i>
+                      </a>
+                       @endif
+                      </td>
+                      <td >
+                         @if(Auth::user()->havepermisos("Admin.Producto.destroy"))
+                        <a v-on:click.prevent="deseas_eliminar({{$producto->id}})" class="btn btn-danger" href="{{ route('Admin.Producto.index') }}" > <i class="far fa-trash-alt"></i></a>
+                        @endif
+                      </td>
                       
                     </tr>
                     @endforeach 

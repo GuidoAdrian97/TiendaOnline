@@ -14648,7 +14648,7 @@ var apicategoria = new Vue({
         });
       } else {
         this.div_class_slug = "badge badge-danger";
-        this.div_mensajeSlug = "Debes scribir categoria";
+        this.div_mensajeSlug = "Debes scribir una categoria";
         this.des_buton = 1;
         this.div_aparecer = true;
       }
@@ -14814,6 +14814,70 @@ var apiproducto = new Vue({
 
 /***/ }),
 
+/***/ "./resources/js/adminjs/apirol-usuario.js":
+/*!************************************************!*\
+  !*** ./resources/js/adminjs/apirol-usuario.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var apicategoria = new Vue({
+  el: '#apiUsuario',
+  data: {
+    Correo: '',
+    div_mensajeCorreo: 'Correo Existe',
+    div_class_Correo: 'badge badge-success',
+    div_aparecer: false,
+    des_buton: 1
+  },
+  methods: {
+    getCorreo: function getCorreo() {
+      var _this = this;
+
+      debugger;
+
+      if (this.Correo) {
+        var url = '/api/Usuario/' + this.Correo;
+        axios.get(url).then(function (response) {
+          _this.div_mensajeCorreo = response.data;
+
+          if (_this.div_mensajeCorreo === "Correo Disponible") {
+            _this.div_class_Correo = "badge badge-success";
+            _this.des_buton = 0;
+          } else {
+            _this.div_class_Correo = "badge badge-danger";
+            _this.des_buton = 1;
+          }
+
+          _this.div_aparecer = true;
+
+          if (document.getElementById('editar')) {
+            if (document.getElementById('nombretemp').innerHTML === _this.Correo) {
+              _this.des_buton = 0;
+              _this.div_mensajeCorreo = '';
+              _this.div_class_Correo = '';
+              _this.div_aparecer = false;
+            }
+          }
+        });
+      } else {
+        this.div_class_Correo = "badge badge-danger";
+        this.div_mensajeCorreo = "Debes scribir Correo";
+        this.des_buton = 1;
+        this.div_aparecer = true;
+      }
+    }
+  },
+  mounted: function mounted() {
+    if (document.getElementById('editar')) {
+      this.Correo = document.getElementById('nombretemp').innerHTML;
+      this.des_buton = 0;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/adminjs/apirol.js":
 /*!****************************************!*\
   !*** ./resources/js/adminjs/apirol.js ***!
@@ -14857,7 +14921,7 @@ var apicategoria = new Vue({
     }
   },
   methods: {
-    getCategoria: function getCategoria() {
+    getRol: function getRol() {
       var _this = this;
 
       if (this.slug) {
@@ -14886,7 +14950,7 @@ var apicategoria = new Vue({
         });
       } else {
         this.div_class_slug = "badge badge-danger";
-        this.div_mensajeSlug = "Debes scribir categoria";
+        this.div_mensajeSlug = "Debes scribir un Rol";
         this.des_buton = 1;
         this.div_aparecer = true;
       }
@@ -15039,6 +15103,12 @@ if (document.getElementById('apiproducto')) {
 
 if (document.getElementById('apirol')) {
   __webpack_require__(/*! ./adminjs/apirol */ "./resources/js/adminjs/apirol.js");
+}
+
+;
+
+if (document.getElementById('apiUsuario')) {
+  __webpack_require__(/*! ./adminjs/apirol-usuario */ "./resources/js/adminjs/apirol-usuario.js");
 }
 
 ;

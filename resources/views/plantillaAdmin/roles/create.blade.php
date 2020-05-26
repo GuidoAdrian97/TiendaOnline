@@ -22,7 +22,7 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input v-model="nombre" @blur="getCategoria" @focus="div_aparecer= false" class="form-control" type="text" name="nombre" id="nombre"
+                    <input v-model="nombre" @blur="getRol" @focus="div_aparecer= false" class="form-control" type="text" name="nombre" id="nombre"
                     value="{{old ('name')}}"
                     >
                     <label for="slug">Slug</label>
