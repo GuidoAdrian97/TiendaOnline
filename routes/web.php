@@ -63,30 +63,30 @@ Route::get('/resultados', function () {
     return $imagen;
 });
 
-Route::get('/', function () {
+// Route::get('/', function () {
 
-// $prod = new Porducto();
-// $prod->nombre_Pro = 'Producto 3';
-// $prod->slug_Pro = 'Producto 3';
-// $prod->categoria_id = 1;
-// $prod->descripcion_corta_Pro = 'Producto ';
-// $prod->descripcion_larga_Pro = 'Producto ';
-// $prod->especificacion_Pro = 'Producto ';
-// $prod->datoInteres_Pro = 'Producto ';
-// $prod->estado_Pro = 'Nuevo';
-// $prod->activo_Pro = 'Si';
-// $prod->slinderprincipal_Pro = 'No'; 
-// $prod->save();
-// return $prod;
+// // $prod = new Porducto();
+// // $prod->nombre_Pro = 'Producto 3';
+// // $prod->slug_Pro = 'Producto 3';
+// // $prod->categoria_id = 1;
+// // $prod->descripcion_corta_Pro = 'Producto ';
+// // $prod->descripcion_larga_Pro = 'Producto ';
+// // $prod->especificacion_Pro = 'Producto ';
+// // $prod->datoInteres_Pro = 'Producto ';
+// // $prod->estado_Pro = 'Nuevo';
+// // $prod->activo_Pro = 'Si';
+// // $prod->slinderprincipal_Pro = 'No'; 
+// // $prod->save();
+// // return $prod;
 
-    return view('tienda.index');
-});
-
+//     return view('tienda.index');
+// })->name('index');
+Route::get('/', 'HomeController@index')->name('index');
 
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
 
 Route::get('/admin', function () {
 	Gate::authorize('haveacceso','admin');

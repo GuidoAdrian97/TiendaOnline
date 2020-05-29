@@ -5,7 +5,7 @@
 <title>@yield('titulo')</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="Jhonatan Shop template">
+<meta name="description" content="KasleGlam Store">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- CSRF Token -->
@@ -16,7 +16,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('PlantillaAdminLTE/dist/css/adminlte.min.css')}}">
+    <script src="https://kit.fontawesome.com/4df93e2e69.js" crossorigin="anonymous"></script>
 
 
 <link rel="stylesheet" type="text/css" href="{{ asset('PlantillaTienda/plugins/font-awesome-4.7.0/css/font-awesome.min.css')}}">
@@ -32,8 +32,51 @@
 
 <!-- Menu -->
 
-		<div class="menu">
+		<div class="menu" style=" background-color: #171316;" >
+			<div class="logo">
+						<a href="" >
+							<div  class="d-flex flex-row align-items-center justify-content-start">
+								<img width="70" height="60" src="{{ asset('imagenes/1581130028033.png')}}" alt="">
+								<div style=" color: #41edf1; ">@yield('titulo') Store</div>
+							</div>
 
+						</a>	
+					</div>
+			
+				
+					<ul  class="d-flex flex-row align-items-start justify-content-start">
+				@guest
+					 <li  class="nav-item dropdown">
+					 	<a style=" color: #fd5092; " id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                   <i class="nav-icon far fa-user fa-lg"></i> Ingresar
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        	 <a style=" color: #fd5092; " class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        	 <a style=" color: #fd5092; " class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        </div>
+					 </li>
+                        @else
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        @endguest
+			</ul>
+				</nav>
+			
 			<!-- Search -->
 			<div class="menu_search">
 				<form action="#" id="menu_search_form" class="menu_search_form">
@@ -44,6 +87,7 @@
 			<!-- Navigation -->
 			<div class="menu_nav">
 				<ul>
+
 					<li><a href="#">Mujer</a></li>
 					<li><a href="#">Hombre</a></li>
 					<li><a href="#">Niños</a></li>
@@ -52,12 +96,10 @@
 			</div>
 			<!-- Contact Info -->
 			<div class="menu_contact">
-				<div class="menu_phone d-flex flex-row align-items-center justify-content-start">
-					<div><div><img src="{{ asset('PlantillaTienda/images/phone.svg')}}" alt="https://www.flaticon.com/authors/freepik"></div></div>
-					<div>+1 912-252-7350</div>
-				</div>
+				
 				<div class="menu_social">
 					<ul class="menu_social_list d-flex flex-row align-items-start justify-content-start">
+
 						<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
 						<li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
 						<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
@@ -75,19 +117,20 @@
 
 				<div class="header_overlay"></div>
 
-				<div class="header_content d-flex flex-row align-items-center justify-content-start">
+				<div style=" background-color: #171316; " class="header_content d-flex flex-row align-items-center justify-content-start">
 					<div class="logo">
-						<a href="">
-							<div class="d-flex flex-row align-items-center justify-content-start">
-								<div><img src="{{ asset('PlantillaTienda/images/logo_1.png')}}" alt=""></div>
-								<div>@yield('titulo') Shop</div>
+						<a href="" >
+							<div  class="d-flex flex-row align-items-center justify-content-start">
+								<img width="70" height="60" src="{{ asset('imagenes/1581130028033.png')}}" alt="">
+								<div style=" color: #41edf1; ">@yield('titulo') Store</div>
 							</div>
+
 						</a>	
 					</div>
 					<div class="hamburger"><i class="fa fa-bars" aria-hidden="true"></i></div>
 					<nav class="main_nav">
 						<ul class="d-flex flex-row align-items-start justify-content-start">
-							<li class="active"><a href="#">Women</a></li>
+							<li  class="active"><a href="#">Women</a></li>
 							<li><a href="#">Men</a></li>
 							<li><a href="#">Kids</a></li>
 						</ul>
@@ -107,21 +150,22 @@
 						<div class="cart"><a href="cart.html"><div><img class="svg" src="{{ asset('PlantillaTienda/images/cart.svg')}}" alt="https://www.flaticon.com/authors/freepik"><div>1</div></div></a></div>
 						<!-- Phone -->
 						<div class="header_phone d-flex flex-row align-items-center justify-content-start">
-							<div><div><img src="{{ asset('PlantillaTienda/images/phone.svg')}}" alt="https://www.flaticon.com/authors/freepik')}}"></div></div>
-							<div>+1 912-252-7350</div>
+							
+							<div><i  class="fab fa-whatsapp fa-2x"></i></div>
 						</div>
 					</div>
 					<nav class="main_nav">
 						<ul class="d-flex flex-row align-items-start justify-content-start">
 					 @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
+					 <li class="nav-item dropdown">
+					 	<a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                   <i  class="nav-icon far fa-user fa-lg"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        	 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        	 <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        </div>
+					 </li>
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -148,6 +192,8 @@
 				</div>
 
 			</header>
+		</div>  
+		
 		@yield('contenido')
 
 				<!-- Footer -->
@@ -164,12 +210,13 @@
 											<a href="#">
 												<div class="d-flex flex-row align-items-center justify-content-start">
 													<div class="footer_logo_icon"><img src="{{ asset('PlantillaTienda/images/logo_2.png')}}" alt=""></div>
-													<div>@yield('titulo') Shop</div>
+													<div>@yield('titulo') Store</div>
 												</div>
 											</a>		
 										</div>
 										<div class="footer_about_text">
-											<p>Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse potenti. Fusce venenatis vel velit vel euismod.</p>
+											<p>Donde encuetras los mejores productos de belleza, de calidad dandoles diferentes gamas y precios.</p>
+											<p>Si necesitas mas informacion puedes contactarnos el siguiente numero +593 980013638</p>
 										</div>
 									</div>
 								</div>
@@ -232,10 +279,7 @@
 		<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
 										<nav class="footer_nav ml-md-auto order-md-2 order-1">
 											<ul class="d-flex flex-row align-items-center justify-content-start">
-												<li><a href="category.html">Women</a></li>
-												<li><a href="category.html">Men</a></li>
-												<li><a href="category.html">Kids</a></li>
-												<li><a href="category.html">Otra categoria</a></li>
+												
 												<li><a href="#">Contact</a></li>
 											</ul>
 										</nav>

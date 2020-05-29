@@ -66,11 +66,12 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         //VALIDAR SI SE REGISTRA EL PRIMER USUARIO
-        $user= User::get();
-        if($user->isNotEmpty()){
+        
+        if(User::get()->isNotEmpty()){
             $rolid = Roles::where('slug','cliente')->firstOrFail();
          
      }else{
+        if(Permisos::get()->isEmpty()){
         //Permiso CLiente
         Permisos::create([
          'nombre'=>'cliente',
@@ -97,7 +98,7 @@ class RegisterController extends Controller
         'descripcion'=>'Tiene acceso a todo',
         'fullacceso'=>'yes'
         ]); 
-        $rolid = Roles::where('slug','super_administrador')->firstOrFail();
+        
 
         //PERMISOS CATEGORIA
         Permisos::create([
@@ -179,8 +180,8 @@ class RegisterController extends Controller
          'slug'=>'Admin.Rol.destroy',
          'descripcion'=>'Elimina cualquier Rol',       
         ]);
-        
-
+        }
+        $rolid = Roles::where('slug','super_administrador')->firstOrFail();
      }
         User::create([
             'name' => $data['name'],
@@ -188,9 +189,17 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ])->roles()->sync([$rolid->id]);
         
-         $newuser= User::where('name',$data['name'])->firstOrFail();
+         $newuser= User::where('email',$data['email'])->firstOrFail();
          
          
          return $newuser;
+    }
+    public function redirectPath()
+    {
+        if (auth()->user()->havepermisos('admin')) {
+            return '/admin';
+        }
+
+        return '/';
     }
 }

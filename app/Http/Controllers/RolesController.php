@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ModelRoles\Roles;
 use App\ModelRoles\Permisos;
-
+use Illuminate\Support\Facades\Gate;
 class RolesController extends Controller
 {
-    public function __construct(){
-        $this->middleware('auth');
-    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +16,7 @@ class RolesController extends Controller
      */
     public function index(Request $request)
     {
-        
+        Gate::authorize('haveacceso','Admin.Rol.index');
          $nombre= $request->get('nombre');
          $roles=Roles::where('nombre','like',"%$nombre%")->orderBy('id','Desc')->paginate(5);
         return view('plantillaAdmin.roles.index',compact('roles'));
@@ -31,6 +29,7 @@ class RolesController extends Controller
      */
     public function create()
     {
+        Gate::authorize('haveacceso','Admin.Rol.cretate');
        $permisos= Permisos::get();
        return view('plantillaAdmin.roles.create',compact('permisos'));
     }
@@ -43,6 +42,7 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('haveacceso','Admin.Rol.cretate');
         $request->validate([
             'nombre'=>'required|max:50|unique:roles,nombre',
             'slug'=>'required|max:50|unique:roles,slug',
@@ -54,11 +54,7 @@ class RolesController extends Controller
             $role->permisos()->sync($request->get('permiso'));
         }
             return redirect()->route('Admin.Rol.index')->with('datos','Rol guardado correctamente');
-        
 
-
-
-        
     }
 
     /**
@@ -69,6 +65,7 @@ class RolesController extends Controller
      */
     public function show($slug)
     {
+        Gate::authorize('haveacceso','Admin.Rol.show');
         $roles= Roles::where('slug',$slug)->firstOrFail();
         $permisos= Permisos::get();
         $roles_permisos=[];
@@ -88,6 +85,7 @@ class RolesController extends Controller
      */
     public function edit($slug)
     {
+        Gate::authorize('haveacceso','Admin.Rol.edit');
         $roles= Roles::where('slug',$slug)->firstOrFail();
          $permisos= Permisos::get();
          $roles_permisos=[];
@@ -109,6 +107,7 @@ class RolesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        Gate::authorize('haveacceso','Admin.Rol.edit');
         $roles= Roles::findOrFail($id);
          $request->validate([
             'nombre'=>'required|max:50|unique:roles,nombre,'.$roles->id,
@@ -131,6 +130,7 @@ class RolesController extends Controller
      */
     public function destroy($id)
     {
+         Gate::authorize('haveacceso','Admin.Rol.destroy');
         $roles= Roles::findOrFail($id);
         $roles->delete();
          return redirect()->route('Admin.Rol.index')->with('datos','Rol Removido correctamente');

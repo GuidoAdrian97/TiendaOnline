@@ -1,11 +1,41 @@
-@extends('layouts.app')
+@extends('plantilla.plantillaTienda')
 
-@section('content')
-<div class="container">
+@section('titulo','Kasle Glam')
+
+@section('estilos')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('PlantillaTienda/styles/main_styles.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ asset('PlantillaTienda/styles/responsive.css')}}">
+
+<link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+@endsection
+
+
+@section('pagina','Iniciar Secion')
+
+
+@section('contenido')
+
+@extends('custom.breadcrumbtienda')
+
+@section('breadcrumb')
+
+ <li class=" active"><a href=""> @yield('pagina')</a></li>
+@endsection
+
+@section('salto')
+ <br>
+ <br>
+@endsection
+<div class="super_container_inner">
+
+   
+   
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+                <div class="card-header">@yield('pagina')</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -70,4 +100,8 @@
         </div>
     </div>
 </div>
+
+<br>
+
+
 @endsection

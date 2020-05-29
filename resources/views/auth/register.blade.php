@@ -1,6 +1,33 @@
-@extends('layouts.app')
+@extends('plantilla.plantillaTienda')
 
-@section('content')
+@section('titulo','Kasle Glam')
+
+@section('estilos')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('PlantillaTienda/styles/main_styles.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ asset('PlantillaTienda/styles/responsive.css')}}">
+
+<link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+@endsection
+
+
+@section('pagina','Registrarse')
+
+
+@section('contenido')
+
+@extends('custom.breadcrumbtienda')
+
+@section('breadcrumb')
+
+ <li class=" active"><a href=""> @yield('pagina')</a></li>
+@endsection
+
+@section('salto')
+ <br>
+ <br>
+@endsection
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -74,4 +101,5 @@
         </div>
     </div>
 </div>
+<br>
 @endsection

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\ModelRoles\Roles;
 use App\ModelRoles\Permisos;
 use App\User;
+use Illuminate\Support\Facades\Gate;
 class Rol_UserController extends Controller
 {
     /**
@@ -15,6 +16,7 @@ class Rol_UserController extends Controller
      */
     public function index(Request $request)
     {
+        Gate::authorize('haveacceso','Admin.Rol_User.index');
         $nombre= $request->get('nombre');
         $Users = User::where('name','like',"%$nombre%")->orderBy('name')->paginate(7);
 
@@ -35,6 +37,7 @@ class Rol_UserController extends Controller
      */
     public function show($id)
     {
+        Gate::authorize('haveacceso','Admin.Rol_User.show');
         $User= User::where('id',$id)->firstOrFail();
         $roles= Roles::get();
         $roles_usuario=[];
@@ -54,6 +57,7 @@ class Rol_UserController extends Controller
      */
     public function edit($id)
     {
+        Gate::authorize('haveacceso','Admin.Rol_User.edit');
        $User= User::where('id',$id)->firstOrFail();
         $roles= Roles::get();
         $roles_usuario=[];
@@ -74,8 +78,7 @@ class Rol_UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-
+        Gate::authorize('haveacceso','Admin.Rol_User.update');
         $User= User::findOrFail($id);
          $request->validate([
             'Correo'=>'required|unique:roles,nombre,'.$User->id
@@ -95,6 +98,9 @@ class Rol_UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Gate::authorize('haveacceso','Admin.Rol_User.destroy');
+        $User= User::findOrFail($id);
+        $User->delete();
+         return redirect()->route('Admin.Rol_User.index')->with('datos','Usuario Removido correctamente');
     }
 }
